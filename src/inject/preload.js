@@ -13,6 +13,14 @@ class Injector {
     if (Common.DEBUG_MODE) {
       Injector.lock(window, 'console', window.console);
     }
+    Object.defineProperty(Notification,'permission',{
+      set: () => {},
+      get: () => {return 'denied'}
+    });
+    Object.defineProperty(window.Notification,'requestPermission',{
+      set: () => {},
+      get: () => {return function (fn) {fn('denied')}}
+    });
     this.initInjectBundle();
     this.initAngularInjection();
     webFrame.setZoomLevelLimits(1, 1);
